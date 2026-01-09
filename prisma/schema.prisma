@@ -1,15 +1,12 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider  = "postgresql"
+  provider = "postgresql"
 }
 
 /* ---------- Enums ---------- */
@@ -31,6 +28,11 @@ enum DensityRating {
   green
   yellow
   red
+}
+
+enum EntryMethod {
+  delta
+  total
 }
 
 /* ---------- Models ---------- */
@@ -75,10 +77,10 @@ model VerificationToken {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  image     String?
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String?
+  image         String?
   emailVerified DateTime?
 
   createdAt DateTime @default(now())
@@ -89,21 +91,30 @@ model User {
   sessions Session[]
 
   // Your app relations
-  preferences UserPreferences?
-  stepLogs    StepLog[]
-  waterLogs   WaterLog[]
-  foodLogs    FoodLog[]
-  savedFoods  SavedFood[]
+  preferences   UserPreferences?
+  stepLogs      StepLog[]
+  waterLogs     WaterLog[]
+  foodLogs      FoodLog[]
+  savedFoods    SavedFood[]
+  dailySummaries DailySummary[]
 }
 
 model UserPreferences {
   id            String   @id @default(cuid())
   userId        String   @unique
+
+  // Goals
   stepsGoal     Int      @default(8000)
   waterCupsGoal Int      @default(8)
   caloriesGoal  Int      @default(2000)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+
+  // Day grouping & UX defaults
+  timeZone         String     @default("America/New_York")
+  defaultFoodUnit  AmountUnit @default(g)
+  defaultLiquidUnit AmountUnit @default(ml)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -111,35 +122,51 @@ model UserPreferences {
 model StepLog {
   id         String   @id @default(cuid())
   userId     String
+
+  // When it happened, and what "day bucket" it belongs to
   occurredAt DateTime
-  stepsDelta Int
-  createdAt  DateTime @default(now())
+  day        DateTime
+
+  stepsDelta  Int
+  entryMethod EntryMethod @default(delta)
+
+  createdAt DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, occurredAt])
+  @@index([userId, day])
 }
 
 model WaterLog {
   id         String   @id @default(cuid())
   userId     String
+
   occurredAt DateTime
-  cupsDelta  Int
-  createdAt  DateTime @default(now())
+  day        DateTime
+
+  // Use Float to support 0.5 cups, etc.
+  cupsDelta   Float
+  entryMethod EntryMethod @default(delta)
+
+  createdAt DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, occurredAt])
+  @@index([userId, day])
 }
 
 model FoodLog {
   id         String   @id @default(cuid())
   userId     String
+
   occurredAt DateTime
+  day        DateTime
 
   calories Int
   isLiquid Boolean
-  label String?  // what the user calls it (for recall)
+  label    String? // what the user calls it (for recall)
 
   // User-entered amount (for recall)
   amountValue Float?
@@ -158,12 +185,16 @@ model FoodLog {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // Soft delete for audit/undo potential
+  deletedAt DateTime?
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   savedFoodId String?
   savedFood   SavedFood? @relation(fields: [savedFoodId], references: [id], onDelete: SetNull)
 
   @@index([userId, occurredAt])
+  @@index([userId, day])
   @@index([userId, label])
   @@index([userId, savedFoodId])
 }
@@ -176,14 +207,14 @@ model SavedFood {
   isLiquid Boolean
 
   // Optional “default” amounts and calories
-  defaultCalories   Int?
+  defaultCalories    Int?
   defaultAmountValue Float?
   defaultAmountUnit  AmountUnit?
 
   // Optional density defaults if you want them later (not required now)
-  defaultGramsNormalized Float?
-  defaultMlNormalized    Float?
-  defaultNormalizationMethod NormalizationMethod?
+  defaultGramsNormalized      Float?
+  defaultMlNormalized         Float?
+  defaultNormalizationMethod  NormalizationMethod?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -193,4 +224,30 @@ model SavedFood {
 
   @@unique([userId, name])
   @@index([userId])
+}
+
+model DailySummary {
+  id     String   @id @default(cuid())
+  userId String
+  day    DateTime
+
+  caloriesTotal   Int    @default(0)
+  stepsTotal      Int    @default(0)
+  waterCupsTotal  Float  @default(0)
+
+  caloriesPct Float @default(0)
+  stepsPct    Float @default(0)
+  waterPct    Float @default(0)
+  overallPct  Float @default(0)
+
+  // For simplified past-days color (mass-weighted rating)
+  densityScore  Float?
+  densityRating DensityRating?
+
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, day])
+  @@index([userId, day])
 }
