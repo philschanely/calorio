@@ -49,13 +49,10 @@
 
   --spacing-*: initial;
   --spacing-none: 0;
-  --spacing-a0: 0.125rem;
+  --spacing-aa: 0.125rem;
   --spacing-a: 0.25rem;
-  --spacing-aa: 0.375rem;
   --spacing-b: 0.5rem;
-  --spacing-bb: 0.5rem;
   --spacing-c: 0.75rem;
-  --spacing-cc: 0.875rem;
   --spacing-d: 1rem;
   --spacing-e: 1.25rem;
   --spacing-f: 1.5rem;
@@ -64,9 +61,9 @@
   --spacing-i: 2.25rem;
   --spacing-j: 2.5rem;
   --spacing-k: 2.75rem;
-  --spacing-l: 2.5rem;
-  --spacing-m: 3rem;
-  --spacing-n: 4rem;
+  --spacing-l: 3rem;
+  --spacing-m: 4rem;
+  --spacing-n: 5rem;
 
   --text-display-1: 2rem;
   --text-display-1--line-height: 2.25rem;
