@@ -1,26 +1,94 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --font-sans: var(--font-ibm-plex-sans);
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-*: initial;
+  --color-quartz-50: #EBEBEF;
+  --color-quartz-100: #D1D1DB;
+  --color-quartz-200: #B2B2C5;
+  --color-quartz-300: #9393AE;
+  --color-quartz-400: #6A6988;
+  --color-quartz-500: #4A4A6C;
+  --color-quartz-600: #2B2A50;
+  --color-quartz-900: #191920;
+  --color-topaz-100: #DCE8EE;
+  --color-topaz-200: #9EDDE8;
+  --color-topaz-300: #14C4DB;
+  --color-topaz-400: #1D87A4;
+  --color-topaz-500: #24587A;
+  --color-emerald-100: #C2E5D6;
+  --color-emerald-200: #71DAA4;
+  --color-emerald-300: #20CF72;
+  --color-emerald-400: #248D64;
+  --color-emerald-500: #285C5A;
+  --color-citrine-100: #EADECF;
+  --color-citrine-200: #E8C490;
+  --color-citrine-300: #E6AA51;
+  --color-citrine-400: #9B7751;
+  --color-citrine-500: #635050;
+  --color-ruby-100: #EFD0D9;
+  --color-ruby-200: #E997A7;
+  --color-ruby-300: #FF6682;
+  --color-ruby-400: #AA4E6E;
+  --color-ruby-500: #6B3C5F;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  --color-background: var(--color-quartz-600);
+  --color-default: var(--color-quartz-50);
+  --color-subtle: var(--color-quartz-100);
+  --color-disabled: var(--color-quartz-100);
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  --radius-*: initial;
+  --radius-none: 0;
+  --radius-aa: 0.125rem;
+  --radius-a: 0.25rem;
+  --radius-b: 0.5rem;
+  --radius-c: 0.75rem;
+  --radius-d: 1rem;
+  --radius-full: 10rem;
+
+  --spacing-*: initial;
+  --spacing-none: 0;
+  --spacing-a0: 0.125rem;
+  --spacing-a: 0.25rem;
+  --spacing-aa: 0.375rem;
+  --spacing-b: 0.5rem;
+  --spacing-bb: 0.5rem;
+  --spacing-c: 0.75rem;
+  --spacing-cc: 0.875rem;
+  --spacing-d: 1rem;
+  --spacing-e: 1.25rem;
+  --spacing-f: 1.5rem;
+  --spacing-g: 1.75rem;
+  --spacing-h: 2rem;
+  --spacing-i: 2.25rem;
+  --spacing-j: 2.5rem;
+  --spacing-k: 2.75rem;
+  --spacing-l: 2.5rem;
+  --spacing-m: 3rem;
+  --spacing-n: 4rem;
+
+  --text-display-1: 2rem;
+  --text-display-1--line-height: 2.25rem;
+  --text-display-1--font-weight: 700;
+  --text-display-1--letter-spacing: 32%;
+  --text-display-2: 1.5rem;
+  --text-display-2--line-height: 2rem;
+  --text-display-2--font-weight: 700;
+  --text-display-2--letter-spacing: 16%;
+  --text-display-3: 1.25rem;
+  --text-display-3--line-height: 1.75rem;
+  --text-display-3--font-weight: 700;
+  --text-display-4: 1rem;
+  --text-display-4--line-height: 1.5rem;
+  --text-display-4--font-weight: 700;
+  --text-display-5: 0.75rem;
+  --text-display-5--line-height: 1rem;
+  --text-display-5--font-weight: 700;
+  --text-display-body: 1rem;
+  --text-display-body--line-height: 1.5rem;
+  --text-display-body--font-weight: 400;
+  --text-display-caption: 0.75rem;
+  --text-display-caption--line-height: 1rem;
+  --text-display-caption--font-weight: 400;
 }
