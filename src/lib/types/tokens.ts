@@ -54,3 +54,12 @@ export type TokenSpacing =
     | "L"
     | "M"
     | "N";
+
+export type TYPE_SPEC = 
+    | 'Display1'
+    | 'Display2'
+    | 'Display3'
+    | 'Display4'
+    | 'Display5'
+    | 'Body'
+    | 'Caption';
