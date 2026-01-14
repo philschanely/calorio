@@ -1,4 +1,3 @@
 export * from "./app-header";
 export * from "./logo";
 export * from "./text";
-export * from "./QueryProvider";
