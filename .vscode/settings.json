@@ -15,5 +15,10 @@
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "coverage-gutters.lcovFile": "coverage/lcov.info",
+  "coverage-gutters.showGutterCoverage": true,
+  "coverage-gutters.showFileCoverage": true,
+  "coverage-gutters.autoRefresh": true,
+  "coverage-gutters.showLineCoverage": true
 }
