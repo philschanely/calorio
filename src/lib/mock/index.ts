@@ -1,5 +1,7 @@
 import { DayEntries, DayRing, DaySummary } from "../types";
 
+export * from "./helpers";
+
 export const mock = {
   todayISO: "2026-01-09",
 
@@ -9,7 +11,7 @@ export const mock = {
       overallPct: 67,
       calories: { total: 1340, goal: 2000, pct: 67 },
       steps: { total: 4200, goal: 8000, pct: 52.5 },
-      water: { cups: 7, goalCups: 8, pct: 87.5 },
+      water: { total: 7, goal: 8, pct: 87.5 },
       density: { rating: "yellow", score: 0.55 },
     },
   } satisfies Record<string, DaySummary>,
@@ -28,7 +30,9 @@ export const mock = {
     const d = new Date(Date.UTC(2026, 0, 1 + i));
     const dayISO = d.toISOString().slice(0, 10);
     const pct = [0, 15, 25, 40, 55, 67, 80, 92, 110][i % 9];
-    const densityRating = (["green", "yellow", "red", "unrated"] as const)[i % 4];
+    const densityRating = (["green", "yellow", "red", "unrated"] as const)[
+      i % 4
+    ];
     return { dayISO, overallPct: pct, densityRating };
   }) satisfies DayRing[],
 
@@ -57,11 +61,26 @@ export const mock = {
         },
       ],
       steps: [
-        { id: "s1", type: "steps", stepsDelta: 1200, createdAtISO: "2026-01-09T14:00:00.000Z" },
+        {
+          id: "s1",
+          type: "steps",
+          stepsDelta: 1200,
+          createdAtISO: "2026-01-09T14:00:00.000Z",
+        },
       ],
       water: [
-        { id: "w1", type: "water", cupsDelta: 2, createdAtISO: "2026-01-09T10:00:00.000Z" },
-        { id: "w2", type: "water", cupsDelta: 1.5, createdAtISO: "2026-01-09T13:00:00.000Z" },
+        {
+          id: "w1",
+          type: "water",
+          cupsDelta: 2,
+          createdAtISO: "2026-01-09T10:00:00.000Z",
+        },
+        {
+          id: "w2",
+          type: "water",
+          cupsDelta: 1.5,
+          createdAtISO: "2026-01-09T13:00:00.000Z",
+        },
       ],
     },
   } satisfies Record<string, DayEntries>,

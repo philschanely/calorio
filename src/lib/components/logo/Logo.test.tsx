@@ -21,8 +21,8 @@ describe("Logo", () => {
     expect(logo).toHaveClass("h-[88px]");
   });
 
-  it('applies the "full" size classes when size="full" is provided', () => {
-    render(<Logo size="full" />);
+  it('applies the "fluid" size classes when size="fluid" is provided', () => {
+    render(<Logo size="fluid" />);
 
     const logo = screen.getByLabelText(/calorio/i);
     expect(logo).toHaveClass("w-full");

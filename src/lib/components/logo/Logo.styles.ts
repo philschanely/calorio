@@ -11,7 +11,7 @@ export const logoStyles = tv({
       Display5: "w-m h-[56px] pt-a",
       Body: "w-[82px] h-[68px] pt-px",
       Caption: "w-m h-[56px] pt-a",
-      full: "w-full h-auto",
+      fluid: "w-full h-auto",
     },
   },
   defaultVariants: {
