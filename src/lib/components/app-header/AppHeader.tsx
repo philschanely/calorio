@@ -3,34 +3,30 @@
 import Link from "next/link";
 import { Logo } from "../logo";
 import { linkStyles } from "@/lib/styles/link";
-import { faArrowRightFromBracket } from "@fortawesome/pro-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSession } from "@/lib/providers";
+import { appHeaderStyles } from "./AppHeader.styles";
+import { Icon } from "../icon/Icon";
 
 export const AppHeader = () => {
   const { isSignedIn } = useSession();
+  const { root, link } = appHeaderStyles();
 
   return (
-    <div className="flex gap-b items-center justify-start w-full">
-      <Link href="/" aria-label="Go to dashboard">
-        <Logo size="Display1" />
+    <div className={root()}>
+      <Link aria-label="Go to dashboard" href="/">
+        <Logo size="Display5" />
       </Link>
 
       <div className="flex-1" />
 
       {isSignedIn ? (
         <Link
-          className={linkStyles()}
-          href="/api/auth/signout"
           aria-label="Sign out"
+          className={link()}
+          href="/api/auth/signout"
           title="Sign out"
         >
-          <div className="size-f">
-            <FontAwesomeIcon
-              className="h-full w-full"
-              icon={faArrowRightFromBracket}
-            />
-          </div>
+          <Icon icon="ARROW_RIGHT_FROM_BRACKET" size="E" />
         </Link>
       ) : (
         <Link className={linkStyles()} href="/api/auth/signin">
