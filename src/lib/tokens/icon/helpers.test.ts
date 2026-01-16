@@ -1,5 +1,5 @@
-import { faArrowRightFromBracket } from "@fortawesome/pro-solid-svg-icons";
 import { describe, expect, it } from "vitest";
+import { faArrowRightFromBracket } from "@fortawesome/pro-solid-svg-icons";
 import { getFAIcon } from "./helpers";
 
 describe("icon helpers", () => {

@@ -1,16 +1,15 @@
+import { TokenTypeSpec } from "@/lib/tokens";
 import { TextProps } from "./Text.types";
 import { textStyles } from "./Text.styles";
 import { ElementType } from "react";
-import { TokenTypeSpec } from "@/lib/types/tokens";
 
 export const Text = <T extends ElementType = "p">({
   as,
   spec = "Body",
-  className,
   ...props
 }: TextProps<T>) => {
   const Component = as ?? "p";
-  return <Component className={textStyles({ spec, className })} {...props} />;
+  return <Component className={textStyles({ spec })} {...props} />;
 };
 
 const createTextVariant =

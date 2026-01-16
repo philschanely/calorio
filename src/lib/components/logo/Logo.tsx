@@ -1,4 +1,4 @@
-import { TokenTypeSpec } from "@/lib/types/tokens";
+import { TokenTypeSpec } from "@/lib/tokens";
 import { logoStyles } from "./Logo.styles";
 
 export type LogoProps = { size?: TokenTypeSpec | "fluid" };

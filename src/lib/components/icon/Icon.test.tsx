@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import { Icon } from "./Icon";
+import { render, screen } from "@testing-library/react";
 import * as tokenModule from "@/lib/tokens";
 import type { TokenIcon, TokenSpacing } from "@/lib/tokens";
+import { Icon } from "./Icon";
 
 // Mock the getFAIcon function
 vi.mock("@/lib/tokens", () => ({

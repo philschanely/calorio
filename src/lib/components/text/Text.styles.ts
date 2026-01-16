@@ -8,8 +8,8 @@ export const textStyles = tv({
       Display3: "text-display-3",
       Display4: "text-display-4",
       Display5: "text-display-5",
-      Body: "text-display-body",
-      Caption: "text-display-caption",
+      Body: "text-body",
+      Caption: "text-caption",
     },
   },
 });

@@ -1,5 +1,5 @@
-import { TokenSpacing } from "./types";
 import { REM_BASE, SPACING } from "./tokens";
+import { TokenSpacing } from "./types";
 
 /**
  * Retrieve the rem-like value for a spacing token as a number
