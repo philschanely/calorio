@@ -9,6 +9,7 @@ describe("Logo", () => {
     const logo = screen.getByLabelText(/calorio/i);
     expect(logo).toBeInTheDocument();
     expect(logo.querySelector("svg")).toBeTruthy();
+    expect(logo.querySelector("svg")).toHaveAttribute("aria-hidden", "true");
   });
 
   it("applies the default size classes when no size is provided", () => {

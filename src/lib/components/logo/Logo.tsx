@@ -5,9 +5,9 @@ export type LogoProps = { size?: TokenTypeSpec | "fluid" };
 
 export const Logo = ({ size }: LogoProps) => {
   return (
-    <div className={logoStyles({ size })}>
+    <div aria-label="Calorio" className={logoStyles({ size })}>
       <svg
-        aria-label="Calorio"
+        aria-hidden
         className="block h-full w-auto"
         viewBox="0 0 64 50"
         xmlns="http://www.w3.org/2000/svg"
