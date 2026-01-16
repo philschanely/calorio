@@ -1,5 +1,5 @@
-import { TokenColorSwatchbook } from "@/lib/types/tokens";
 import { SWATCHBOOK } from "./tokens";
+import { TokenColorSwatchbook } from "./types";
 
 /**
  * Retrieve the hex value for a swatchbook color token as a string

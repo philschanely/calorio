@@ -1,4 +1,4 @@
-import { TokenSpacing } from "@/lib/types/tokens";
+import { TokenSpacing } from "./types";
 import { REM_BASE, SPACING } from "./tokens";
 
 /**

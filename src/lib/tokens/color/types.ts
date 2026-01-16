@@ -27,32 +27,3 @@ export type TokenColorSwatchbook =
   | "RUBY_300"
   | "RUBY_400"
   | "RUBY_500";
-
-export type TokenRadius = "NONE" | "AA" | "A" | "B" | "C" | "D" | "FULL";
-
-export type TokenSpacing =
-  | "NONE"
-  | "AA"
-  | "A"
-  | "B"
-  | "C"
-  | "D"
-  | "E"
-  | "F"
-  | "G"
-  | "H"
-  | "I"
-  | "J"
-  | "K"
-  | "L"
-  | "M"
-  | "N";
-
-export type TokenTypeSpec =
-  | "Display1"
-  | "Display2"
-  | "Display3"
-  | "Display4"
-  | "Display5"
-  | "Body"
-  | "Caption";

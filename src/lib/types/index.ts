@@ -1,7 +1,12 @@
-import { DayRingDTO, DaySummaryDTO, FoodEntryDTO, StepsEntryDTO, WaterEntryDTO } from "./dto";
+import {
+  DayRingDTO,
+  DaySummaryDTO,
+  FoodEntryDTO,
+  StepsEntryDTO,
+  WaterEntryDTO,
+} from "./dto";
 
 export * from "./dto";
-export * from "./tokens";
 
 export type DayRing = DayRingDTO;
 
