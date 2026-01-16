@@ -1,6 +1,7 @@
 import { TokenIcon, TokenSpacing } from "@/lib/tokens";
 
 export type IconProps = {
-  size?: TokenSpacing;
   icon: TokenIcon;
-};
+  label?: string;
+  size?: TokenSpacing;
+} & React.HTMLAttributes<HTMLSpanElement>;
