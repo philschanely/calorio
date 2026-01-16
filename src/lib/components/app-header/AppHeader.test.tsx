@@ -1,8 +1,8 @@
-import { render, screen } from "@testing-library/react";
-import { describe, expect, it, vi, beforeEach } from "vitest";
 import type { ReactNode } from "react";
-import { AppHeader } from "./AppHeader";
+import { describe, expect, it, vi, beforeEach } from "vitest";
+import { render, screen } from "@testing-library/react";
 import { useSession } from "@/lib/providers";
+import { AppHeader } from "./AppHeader";
 
 vi.mock("next/link", () => ({
   default: ({
@@ -52,7 +52,8 @@ describe("AppHeader", () => {
 
     const { container } = render(<AppHeader />);
 
-    expect(container.querySelector('a[href="/api/auth/signout"]')).toBeTruthy();
+    expect(container.querySelector('span[aria-label="Sign out"]')).toBeTruthy();
+    expect(container).toHaveTextContent("test@example.com");
     expect(screen.queryByRole("link", { name: /sign in/i })).toBeNull();
   });
 });
