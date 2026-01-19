@@ -9,12 +9,20 @@ export type DayRingDTO = {
   densityRating: DensityRating;
 };
 
+export type FactorSpec = { total: number; goal: number; pct: number };
+
+export enum DaySummaryBadgeMode {
+  DETAILS = "details",
+  OVERALL = "overall",
+  PERCENTAGE = "percentage",
+}
+
 export type DaySummaryDTO = {
   dayISO: string;
   overallPct: number;
-  calories: { total: number; goal: number; pct: number };
-  steps: { total: number; goal: number; pct: number };
-  water: { total: number; goal: number; pct: number }; // <- renamed
+  calories: FactorSpec;
+  steps: FactorSpec;
+  water: FactorSpec;
   density: { rating: DensityRating; score: number | null };
 };
 

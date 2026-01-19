@@ -1,5 +1,12 @@
 import { TokenColorSwatchbook } from "./types";
 
+export type TokenColorSwatchbookBase =
+  | "CITRINE"
+  | "EMERALD"
+  | "QUARTZ"
+  | "RUBY"
+  | "TOPAZ";
+
 export const SWATCHBOOK: Record<TokenColorSwatchbook, string> = {
   QUARTZ_50: "#EBEBEF",
   QUARTZ_100: "#D1D1DB",
