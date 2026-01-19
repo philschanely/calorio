@@ -1,4 +1,4 @@
-import { colorVariants, typeSpecVariants } from "@/lib/styles/tokens";
+import { colorVariants, typeSpecVariants } from "@/lib/styles";
 import { tv } from "tailwind-variants";
 
 export const textStyles = tv({

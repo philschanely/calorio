@@ -1,6 +1,6 @@
-import { describe, expect, it, vi } from "vitest";
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 import * as tokenModule from "@/lib/tokens";
 import type { TokenIcon, TokenSpacing } from "@/lib/tokens";
 import { Icon } from "./Icon";
@@ -41,136 +41,109 @@ vi.mock("@fortawesome/react-fontawesome", () => ({
   ),
 }));
 
+const element = "[data-element='icon']";
+const attrs = {
+  icon: "data-icon",
+  size: "data-icon-size",
+};
+
 describe("Icon Component", () => {
-  it("renders a span with icon", () => {
-    const { container } = render(<Icon icon="ARROW_RIGHT_FROM_BRACKET" />);
+  describe("Rendering", () => {
+    it("default state", () => {
+      const { container } = render(<Icon icon="ARROW_RIGHT_FROM_BRACKET" />);
 
-    const span = container.querySelector("span");
-    expect(span).toBeInTheDocument();
-    expect(span?.tagName).toBe("SPAN");
-  });
+      const el = container.querySelector(element);
+      expect(el).toBeInTheDocument();
+      expect(el?.tagName).toBe("SPAN");
+      expect(el).toHaveAttribute(attrs.size, "F");
+      expect(el).toHaveClass("size-f");
+      expect(el).toHaveAttribute(attrs.icon, "ARROW_RIGHT_FROM_BRACKET");
 
-  it("renders with default size F when size prop is not provided", () => {
-    const { container } = render(<Icon icon="ARROW_RIGHT_FROM_BRACKET" />);
+      const faIcon = screen.getByTestId("fa-icon");
+      expect(faIcon).toBeInTheDocument();
+      expect(faIcon).toHaveAttribute("data-icon", "arrow-right-from-bracket");
 
-    const span = container.querySelector("span");
-    expect(span).toHaveClass("size-f");
-  });
+      expect(el).not.toHaveAttribute("aria-label");
+    });
 
-  it("applies custom size class based on size prop", () => {
-    const { container } = render(
-      <Icon icon="ARROW_RIGHT_FROM_BRACKET" size="C" />,
-    );
+    it("sets aria-label when label prop is provided", () => {
+      render(<Icon icon="ARROW_RIGHT_FROM_BRACKET" label="Sign Out" />);
 
-    const span = container.querySelector("span");
-    expect(span).toHaveClass("size-c");
-  });
+      const span = screen.getByLabelText("Sign Out");
+      expect(span).toBeInTheDocument();
+    });
 
-  it("applies different size variants correctly", () => {
-    const sizeExpectations: Record<TokenSpacing, string | null> = {
-      NONE: null, // NONE variant doesn't add a class
-      AA: "size-a", // AA maps to size-a
-      A: "size-a",
-      B: "size-b",
-      C: "size-c",
-      D: "size-d",
-      E: "size-e",
-      F: "size-f",
-      G: "size-g",
-      H: "size-h",
-      I: "size-i",
-      J: "size-j",
-      K: "size-k",
-      L: "size-l",
-      M: "size-m",
-      N: "size-n",
-    };
+    it("does not render FontAwesomeIcon when icon is invalid", () => {
+      const invalidIcon = "INVALID_ICON" as unknown as TokenIcon;
+      render(<Icon icon={invalidIcon} />);
 
-    Object.entries(sizeExpectations).forEach(([size, expectedClass]) => {
-      const { container, unmount } = render(
-        <Icon icon="ARROW_RIGHT_FROM_BRACKET" size={size as TokenSpacing} />,
+      const faIcon = screen.queryByTestId("fa-icon");
+      expect(faIcon).not.toBeInTheDocument();
+    });
+
+    it("calls getFAIcon with the provided icon prop", () => {
+      render(<Icon icon="CHEVRON_DOWN" />);
+
+      expect(tokenModule.getFAIcon).toHaveBeenCalledWith("CHEVRON_DOWN");
+    });
+
+    it("applies icon class constraints to FontAwesomeIcon", () => {
+      render(<Icon icon="ARROW_RIGHT_FROM_BRACKET" />);
+
+      const faIcon = screen.getByTestId("fa-icon");
+      expect(faIcon).toHaveClass(
+        "h-full",
+        "w-full",
+        "max-w-[78.4%]",
+        "max-h-[78.4%]",
       );
-
-      const span = container.querySelector("span");
-
-      if (expectedClass) {
-        expect(span).toHaveClass(expectedClass);
-      }
-      unmount();
     });
   });
 
-  it("sets aria-label when label prop is provided", () => {
-    render(<Icon icon="ARROW_RIGHT_FROM_BRACKET" label="Sign Out" />);
+  describe("Variants", () => {
+    it("applies different size variants correctly", () => {
+      const sizeExpectations: Record<TokenSpacing, string | null> = {
+        NONE: null, // NONE variant doesn't add a class
+        AA: "size-a", // AA maps to size-a
+        A: "size-a",
+        B: "size-b",
+        C: "size-c",
+        D: "size-d",
+        E: "size-e",
+        F: "size-f",
+        G: "size-g",
+        H: "size-h",
+        I: "size-i",
+        J: "size-j",
+        K: "size-k",
+        L: "size-l",
+        M: "size-m",
+        N: "size-n",
+      };
 
-    const span = screen.getByLabelText("Sign Out");
-    expect(span).toBeInTheDocument();
-  });
+      Object.entries(sizeExpectations).forEach(([size, expectedClass]) => {
+        const { container, unmount } = render(
+          <Icon icon="ARROW_RIGHT_FROM_BRACKET" size={size as TokenSpacing} />,
+        );
 
-  it("does not set aria-label when label prop is not provided", () => {
-    const { container } = render(<Icon icon="ARROW_RIGHT_FROM_BRACKET" />);
+        const span = container.querySelector(element);
 
-    const span = container.querySelector("span");
-    expect(span).not.toHaveAttribute("aria-label");
-  });
-
-  it("renders FontAwesomeIcon when icon is valid", () => {
-    render(<Icon icon="ARROW_RIGHT_FROM_BRACKET" />);
-
-    const faIcon = screen.getByTestId("fa-icon");
-    expect(faIcon).toBeInTheDocument();
-    expect(faIcon).toHaveAttribute("data-icon", "arrow-right-from-bracket");
-  });
-
-  it("does not render FontAwesomeIcon when icon is invalid", () => {
-    const invalidIcon = "INVALID_ICON" as unknown as TokenIcon;
-    render(<Icon icon={invalidIcon} />);
-
-    const faIcon = screen.queryByTestId("fa-icon");
-    expect(faIcon).not.toBeInTheDocument();
-  });
-
-  it("calls getFAIcon with the provided icon prop", () => {
-    render(<Icon icon="CHEVRON_DOWN" />);
-
-    expect(tokenModule.getFAIcon).toHaveBeenCalledWith("CHEVRON_DOWN");
-  });
-
-  it("applies flex and centering classes to root", () => {
-    const { container } = render(<Icon icon="ARROW_RIGHT_FROM_BRACKET" />);
-
-    const span = container.querySelector("span");
-    expect(span).toHaveClass("flex", "items-center", "justify-center");
-  });
-
-  it("applies icon class constraints to FontAwesomeIcon", () => {
-    render(<Icon icon="ARROW_RIGHT_FROM_BRACKET" />);
-
-    const faIcon = screen.getByTestId("fa-icon");
-    expect(faIcon).toHaveClass(
-      "h-full",
-      "w-full",
-      "max-w-[78.4%]",
-      "max-h-[78.4%]",
-    );
-  });
-
-  it("works with different valid icon types", () => {
-    const icons = ["ARROW_RIGHT_FROM_BRACKET", "CHEVRON_DOWN"] as const;
-
-    icons.forEach((icon) => {
-      const { unmount } = render(<Icon icon={icon} />);
-
-      expect(tokenModule.getFAIcon).toHaveBeenCalledWith(icon);
-      unmount();
+        if (expectedClass) {
+          expect(span).toHaveClass(expectedClass);
+          expect(span).toHaveAttribute(attrs.size, size);
+        }
+        unmount();
+      });
     });
-  });
+    it("works with different valid icon types", () => {
+      const icons = ["ARROW_RIGHT_FROM_BRACKET", "CHEVRON_DOWN"] as const;
 
-  it("supports additional HTML span attributes via spread props", () => {
-    const { container } = render(<Icon icon="ARROW_RIGHT_FROM_BRACKET" />);
+      icons.forEach((icon) => {
+        const { unmount } = render(<Icon icon={icon} />);
 
-    // Verify the component renders a span element
-    const span = container.querySelector("span");
-    expect(span).toBeInTheDocument();
+        expect(tokenModule.getFAIcon).toHaveBeenCalledWith(icon);
+        unmount();
+      });
+    });
   });
 });

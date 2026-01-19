@@ -1,126 +1,142 @@
-import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
+import { DayBadgeMode } from "@/lib/types";
 import { ProgressBadge } from "./ProgressBadge";
-import { DaySummaryBadgeMode } from "@/lib/types";
+import { TokenColorSwatchbookBase } from "@/lib/tokens";
+
+const elements = {
+  root: '[data-element="progress-badge"]',
+  text: '[data-element="progress-badge-text"]',
+};
+
+const attrs = {
+  color: "data-progress-arc-color",
+  mode: "data-progress-arc-mode",
+};
 
 describe("ProgressBadge Component", () => {
-  it("renders a circular badge with OVERALL mode", () => {
-    const { container } = render(
-      <ProgressBadge mode={DaySummaryBadgeMode.OVERALL} pct={50} />,
-    );
-
-    const badge = container.querySelector('[class*="rounded-full"]');
-    expect(badge).toBeInTheDocument();
-  });
-
-  it("displays percentage text in OVERALL mode", () => {
-    render(<ProgressBadge mode={DaySummaryBadgeMode.OVERALL} pct={75} />);
-
-    expect(screen.getByText("75%")).toBeInTheDocument();
-  });
-
-  it("has correct size classes for OVERALL mode", () => {
-    const { container } = render(
-      <ProgressBadge mode={DaySummaryBadgeMode.OVERALL} pct={50} />,
-    );
-
-    const badge = container.querySelector("div");
-    expect(badge).toHaveClass("size-[144px]");
-  });
-
-  it("has correct background color classes for OVERALL mode", () => {
-    const { container } = render(
-      <ProgressBadge mode={DaySummaryBadgeMode.OVERALL} pct={50} />,
-    );
-
-    const badge = container.querySelector("div");
-    expect(badge).toHaveClass("bg-quartz-100");
-  });
-
-  it("has correct text color classes for OVERALL mode", () => {
-    const { container } = render(
-      <ProgressBadge mode={DaySummaryBadgeMode.OVERALL} pct={50} />,
-    );
-
-    const badge = container.querySelector("div");
-    expect(badge).toHaveClass("text-quartz-600");
-  });
-
-  it("uses flexbox centering", () => {
-    const { container } = render(
-      <ProgressBadge mode={DaySummaryBadgeMode.OVERALL} pct={50} />,
-    );
-
-    const badge = container.querySelector("div");
-    expect(badge).toHaveClass("flex");
-    expect(badge).toHaveClass("items-center");
-    expect(badge).toHaveClass("justify-center");
-  });
-
-  it("renders null for DETAILS mode", () => {
-    const { container } = render(
-      <ProgressBadge mode={DaySummaryBadgeMode.DETAILS} pct={50} />,
-    );
-
-    expect(container.firstChild).toBeNull();
-  });
-
-  it("renders null for PERCENTAGE mode", () => {
-    const { container } = render(
-      <ProgressBadge mode={DaySummaryBadgeMode.PERCENTAGE} pct={50} />,
-    );
-
-    expect(container.firstChild).toBeNull();
-  });
-
-  it("displays different percentages correctly", () => {
-    const percentages = [0, 25, 50, 75, 100];
-
-    percentages.forEach((pct) => {
-      const { unmount } = render(
-        <ProgressBadge mode={DaySummaryBadgeMode.OVERALL} pct={pct} />,
+  describe("Rendering", () => {
+    it("default state", () => {
+      const { container } = render(
+        <ProgressBadge mode={DayBadgeMode.OVERALL} pct={50} />,
       );
 
-      expect(screen.getByText(`${pct}%`)).toBeInTheDocument();
+      const root = container.querySelector(elements.root);
+      expect(root).toBeInTheDocument();
+      expect(screen.getByText("50%")).toBeInTheDocument();
+      expect(root).toHaveAttribute(attrs.mode, DayBadgeMode.OVERALL);
+      expect(root).toHaveAttribute(attrs.color, "QUARTZ");
+      expect(root).toHaveClass("bg-quartz-100");
+    });
 
-      unmount();
+    it("does not render when mode is not OVERALL", () => {
+      const { container: containerDetails } = render(
+        <ProgressBadge mode={DayBadgeMode.DETAILS} pct={50} />,
+      );
+      const { container: containerPercentage } = render(
+        <ProgressBadge mode={DayBadgeMode.PERCENTAGE} pct={50} />,
+      );
+
+      expect(
+        containerDetails.querySelector(elements.root),
+      ).not.toBeInTheDocument();
+      expect(
+        containerPercentage.querySelector(elements.root),
+      ).not.toBeInTheDocument();
     });
   });
 
-  it("renders TextDisplay1 component for text", () => {
-    const { container } = render(
-      <ProgressBadge mode={DaySummaryBadgeMode.OVERALL} pct={50} />,
-    );
+  describe("Variants", () => {
+    it("renders different percentages", () => {
+      const testCases = [
+        {
+          pct: 13,
+          expectedValue: "13%",
+        },
+        {
+          pct: 56,
+          expectedValue: "56%",
+        },
+        {
+          pct: 100,
+          expectedValue: "100%",
+        },
+        {
+          pct: 88,
+          expectedValue: "88%",
+        },
+      ];
+      testCases.forEach(({ pct, expectedValue }) => {
+        render(<ProgressBadge mode={DayBadgeMode.OVERALL} pct={pct} />);
+        expect(screen.getByText(expectedValue)).toBeInTheDocument();
+      });
+    });
 
-    const text = container.querySelector('[class*="text"]');
-    expect(text).toBeInTheDocument();
-  });
+    describe("handles extreme percentages as expected", () => {
+      it("> 100", () => {
+        render(<ProgressBadge mode={DayBadgeMode.OVERALL} pct={145} />);
+        expect(screen.getByText("145%")).toBeInTheDocument();
+      });
 
-  it("handles decimal percentages", () => {
-    render(<ProgressBadge mode={DaySummaryBadgeMode.OVERALL} pct={66.67} />);
+      it("< 0", () => {
+        render(<ProgressBadge mode={DayBadgeMode.OVERALL} pct={-12} />);
+        expect(screen.getByText("-12%")).toBeInTheDocument();
+      });
+    });
 
-    expect(screen.getByText("66.67%")).toBeInTheDocument();
-  });
+    it("renders different colors", () => {
+      const testCases = [
+        {
+          color: "EMERALD",
+          expectedClassName: "bg-emerald-300",
+        },
+        {
+          color: "RUBY",
+          expectedClassName: "bg-ruby-300",
+        },
+        {
+          color: "TOPAZ",
+          expectedClassName: "bg-topaz-300",
+        },
+        {
+          color: "CITRINE",
+          expectedClassName: "bg-citrine-300",
+        },
+      ];
+      testCases.forEach(({ color, expectedClassName }) => {
+        const { container } = render(
+          <ProgressBadge
+            mode={DayBadgeMode.OVERALL}
+            pct={50}
+            color={color as TokenColorSwatchbookBase}
+          />,
+        );
+        const root = container.querySelector(elements.root);
+        expect(root).toHaveAttribute(attrs.color, color);
+        expect(root).toHaveClass(expectedClassName);
+      });
+    });
 
-  it("only renders badge for OVERALL mode and no other modes", () => {
-    const modes = [
-      DaySummaryBadgeMode.DETAILS,
-      DaySummaryBadgeMode.PERCENTAGE,
-      DaySummaryBadgeMode.OVERALL,
-    ];
+    it("only renders badge for OVERALL mode and no other modes", () => {
+      const modes = [
+        DayBadgeMode.DETAILS,
+        DayBadgeMode.PERCENTAGE,
+        DayBadgeMode.OVERALL,
+      ];
 
-    modes.forEach((mode) => {
-      const { container, unmount } = render(
-        <ProgressBadge mode={mode} pct={50} />,
-      );
+      modes.forEach((mode) => {
+        const { container, unmount } = render(
+          <ProgressBadge mode={mode} pct={50} />,
+        );
 
-      if (mode === DaySummaryBadgeMode.OVERALL) {
-        expect(container.firstChild).not.toBeNull();
-      } else {
-        expect(container.firstChild).toBeNull();
-      }
+        if (mode === DayBadgeMode.OVERALL) {
+          expect(container.firstChild).not.toBeNull();
+        } else {
+          expect(container.firstChild).toBeNull();
+        }
 
-      unmount();
+        unmount();
+      });
     });
   });
 });

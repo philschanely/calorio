@@ -1,8 +1,8 @@
-import { describe, expect, it } from "vitest";
 import { renderHook } from "@testing-library/react";
-import { useProgressProps } from "./use-progress-props";
-import { DaySummaryBadgeMode } from "@/lib/types";
+import { describe, expect, it } from "vitest";
+import { DayBadgeMode } from "@/lib/types";
 import type { ProgressBarProps } from "./types";
+import { useProgressProps } from "./use-progress-props";
 
 describe("useProgressProps", () => {
   describe("basic input", () => {
@@ -112,7 +112,7 @@ describe("useProgressProps", () => {
     it("returns empty string for OVERALL mode", () => {
       const props: ProgressBarProps = {
         goal: 2000,
-        mode: DaySummaryBadgeMode.OVERALL,
+        mode: DayBadgeMode.OVERALL,
         pct: 50,
         total: 1000,
         unit: "kcal",
@@ -126,7 +126,7 @@ describe("useProgressProps", () => {
     it("returns percentage text for PERCENTAGE mode", () => {
       const props: ProgressBarProps = {
         goal: 2000,
-        mode: DaySummaryBadgeMode.PERCENTAGE,
+        mode: DayBadgeMode.PERCENTAGE,
         pct: 50,
         total: 1000,
         unit: "kcal",
@@ -140,7 +140,7 @@ describe("useProgressProps", () => {
     it("returns total and unit for DETAILS mode", () => {
       const props: ProgressBarProps = {
         goal: 2000,
-        mode: DaySummaryBadgeMode.DETAILS,
+        mode: DayBadgeMode.DETAILS,
         pct: 50,
         total: 1000,
         unit: "kcal",
@@ -261,7 +261,7 @@ describe("useProgressProps", () => {
       units.forEach((unit) => {
         const props: ProgressBarProps = {
           goal: 100,
-          mode: DaySummaryBadgeMode.DETAILS,
+          mode: DayBadgeMode.DETAILS,
           pct: 50,
           total: 50,
           unit,

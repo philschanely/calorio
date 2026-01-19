@@ -8,7 +8,13 @@ export const Icon = ({ icon, label, size = "F" }: IconProps) => {
   const faIcon = getFAIcon(icon);
 
   return (
-    <span className={root()} aria-label={label}>
+    <span
+      aria-label={label}
+      data-element="icon"
+      data-icon={icon}
+      data-icon-size={size}
+      className={root()}
+    >
       {faIcon && <FontAwesomeIcon className={iconClass()} icon={faIcon} />}
     </span>
   );

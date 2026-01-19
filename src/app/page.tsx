@@ -1,5 +1,5 @@
 import { DashboardDTO } from "@/lib/types";
-import { Dashboard } from "../lib/components/Dashboard";
+import { Dashboard } from "@/lib/components";
 
 export default async function Home() {
   const res = await fetch("http://localhost:3000/api/mock/dashboard", {

@@ -1,7 +1,7 @@
 import { TokenTypeSpec } from "@/lib/tokens";
-import { TextProps } from "./Text.types";
-import { textStyles } from "./Text.styles";
 import { ElementType } from "react";
+import { textStyles } from "./Text.styles";
+import { TextProps } from "./Text.types";
 
 export const Text = <T extends ElementType = "p">({
   as,

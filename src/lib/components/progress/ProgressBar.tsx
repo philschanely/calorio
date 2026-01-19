@@ -1,13 +1,20 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { ProgressBarProps } from "./types";
-import { useProgressProps } from "./use-progress-props";
 import { TextDisplay4 } from "../text";
 import { progressBarStyles } from "./ProgressBar.styles";
+import { ProgressBarProps } from "./types";
+import { useProgressProps } from "./use-progress-props";
 
 export const ProgressBar = (props: ProgressBarProps) => {
-  const { color, label, pct, text } = useProgressProps(props);
+  const {
+    color = "QUARTZ",
+    label,
+    mode = "percentage",
+    pct,
+    size = "md",
+    text,
+  } = useProgressProps(props);
 
   const [inverted, setInverted] = useState(false);
 
@@ -39,18 +46,31 @@ export const ProgressBar = (props: ProgressBarProps) => {
   const { bar, root, textBox, track } = progressBarStyles({ color, inverted });
 
   return (
-    <div className={root()}>
-      <div data-item="1" aria-label={label} className={track()}>
+    <div
+      aria-label={label}
+      className={root()}
+      data-element="progress-bar"
+      data-progress-bar-color={color}
+      data-progress-bar-mode={mode}
+      data-progress-bar-render-pct={pct}
+      data-progress-bar-size={size}
+    >
+      <div aria-hidden className={track()} data-element="progress-bar-track">
         {pct > 0 && (
           <div
             ref={barRef}
             className={bar()}
+            data-element="progress-bar-bar"
             style={{ width: `calc((100% - 32px) * ${pct} + 32px)` }}
           />
         )}
       </div>
-      <div ref={textBoxRef} className={textBox()}>
-        <TextDisplay4>{text}</TextDisplay4>
+      <div
+        ref={textBoxRef}
+        className={textBox()}
+        data-element="progress-bar-text-box"
+      >
+        <TextDisplay4 data-element="progress-bar-text">{text}</TextDisplay4>
       </div>
     </div>
   );

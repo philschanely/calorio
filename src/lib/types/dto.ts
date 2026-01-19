@@ -11,7 +11,7 @@ export type DayRingDTO = {
 
 export type FactorSpec = { total: number; goal: number; pct: number };
 
-export enum DaySummaryBadgeMode {
+export enum DayBadgeMode {
   DETAILS = "details",
   OVERALL = "overall",
   PERCENTAGE = "percentage",

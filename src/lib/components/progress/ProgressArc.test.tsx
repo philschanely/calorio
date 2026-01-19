@@ -1,19 +1,22 @@
-import { describe, expect, it, vi } from "vitest";
 import { render } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 import { ProgressArc } from "./ProgressArc";
-
 import type { ProgressArcProps } from "./types";
 
-// Mock the styles
-vi.mock("./ProgressArc.styles", () => ({
-  progressArcStyles: vi.fn(() => ({
-    bar: vi.fn(() => "bar-class"),
-    root: vi.fn(() => "root-class"),
-    svg: vi.fn(() => "svg-class"),
-    textBox: vi.fn(() => "textbox-class"),
-    track: vi.fn(() => "track-class"),
-  })),
-}));
+const elements = {
+  root: "[data-element='progress-arc']",
+  artwork: "[data-element='progress-arc-artwork']",
+  textBox: "[data-element='progress-arc-text-box']",
+  text: "[data-element='progress-arc-text']",
+};
+
+const attrs = {
+  color: "data-progress-arc-color",
+  mode: "data-progress-arc-mode",
+  pct: "data-progress-arc-render-pct",
+  position: "data-progress-arc-position",
+  size: "data-progress-arc-size",
+};
 
 describe("ProgressArc Component", () => {
   const defaultProps: ProgressArcProps = {
@@ -23,96 +26,102 @@ describe("ProgressArc Component", () => {
     unit: "kcal",
   };
 
-  it("renders without crashing", () => {
-    const { container } = render(<ProgressArc {...defaultProps} />);
-    expect(container).toBeDefined();
+  describe("Rendering", () => {
+    it("default state", () => {
+      const { container } = render(<ProgressArc {...defaultProps} />);
+      expect(container).toBeDefined();
+
+      const root = container.querySelector(elements.root);
+      expect(root).toBeInTheDocument();
+      expect(root).toHaveAccessibleName(
+        "1000 (50%) toward the daily goal of 2000",
+      );
+      expect(root).toHaveAttribute(attrs.color, "QUARTZ");
+      expect(root).toHaveAttribute(attrs.mode, "percentage");
+      expect(root).toHaveAttribute(attrs.pct, "0.5");
+      expect(root).toHaveAttribute(attrs.position, "top");
+      expect(root).toHaveAttribute(attrs.size, "md");
+      expect(root).toHaveClass("justify-start");
+
+      const artwork = container.querySelector(elements.artwork);
+      expect(artwork).toBeInTheDocument();
+      expect(artwork?.getAttribute("aria-hidden")).toBe("true");
+      expect(artwork?.getAttribute("viewBox")).toContain("240");
+      expect(
+        container.querySelectorAll("circle")?.length,
+      ).toBeGreaterThanOrEqual(2);
+
+      const textBox = container.querySelector(elements.textBox);
+      expect(textBox).toBeInTheDocument();
+      expect(textBox).toHaveClass("pt-[60px]");
+      expect(container.querySelector(elements.text)).toBeInTheDocument();
+    });
   });
 
-  it("renders an SVG element", () => {
-    const { container } = render(<ProgressArc {...defaultProps} />);
-    const svg = container.querySelector("svg");
-    expect(svg).toBeInTheDocument();
-  });
+  describe("Variants", () => {
+    it("sets viewBox based on diameter for sm size", () => {
+      const { container } = render(<ProgressArc {...defaultProps} size="sm" />);
+      expect(
+        container.querySelector(elements.artwork)?.getAttribute("viewBox"),
+      ).toContain("120");
+    });
 
-  it("renders track and bar circles in SVG", () => {
-    const { container } = render(<ProgressArc {...defaultProps} />);
-    const circles = container.querySelectorAll("circle");
-    expect(circles.length).toBeGreaterThanOrEqual(2); // At least track and bar
-  });
+    it("handles bottom position", () => {
+      const { container } = render(
+        <ProgressArc {...defaultProps} position="bottom" />,
+      );
 
-  it("applies aria-label to root", () => {
-    const { container } = render(<ProgressArc {...defaultProps} />);
-    const root = container.querySelector("[aria-label]");
-    expect(root).toBeInTheDocument();
-  });
+      expect(container).toBeDefined();
 
-  it("marks SVG as aria-hidden", () => {
-    const { container } = render(<ProgressArc {...defaultProps} />);
-    const svg = container.querySelector("svg");
-    expect(svg?.getAttribute("aria-hidden")).toBe("true");
-  });
+      const root = container.querySelector(elements.root);
+      expect(root).toBeInTheDocument();
+      expect(root).toHaveAttribute(attrs.position, "bottom");
+      expect(root).toHaveClass("justify-end");
 
-  it("sets viewBox based on diameter for md size", () => {
-    const { container } = render(<ProgressArc {...defaultProps} size="md" />);
-    const svg = container.querySelector("svg");
-    const viewBox = svg?.getAttribute("viewBox");
-    // md size should have diameter 240
-    expect(viewBox).toContain("240");
-  });
+      const textBox = container.querySelector(elements.textBox);
+      expect(textBox).toBeInTheDocument();
+      expect(textBox).toHaveClass("pb-[60px]");
+    });
 
-  it("sets viewBox based on diameter for sm size", () => {
-    const { container } = render(<ProgressArc {...defaultProps} size="sm" />);
-    const svg = container.querySelector("svg");
-    const viewBox = svg?.getAttribute("viewBox");
-    // sm size should have diameter 120
-    expect(viewBox).toContain("120");
-  });
+    it("renders with custom color", () => {
+      const { container } = render(
+        <ProgressArc {...defaultProps} color="QUARTZ" />,
+      );
+      expect(container.querySelector("svg")).toBeInTheDocument();
+    });
 
-  it("handles different position props", () => {
-    const { container: topContainer } = render(
-      <ProgressArc {...defaultProps} position="top" />,
-    );
-    const { container: bottomContainer } = render(
-      <ProgressArc {...defaultProps} position="bottom" />,
-    );
+    it("updates when percentage changes", () => {
+      const { rerender, container } = render(
+        <ProgressArc {...defaultProps} pct={25} />,
+      );
 
-    expect(topContainer.querySelector("svg")).toBeInTheDocument();
-    expect(bottomContainer.querySelector("svg")).toBeInTheDocument();
-  });
+      const svg1 = container.querySelector("svg");
+      expect(svg1).toBeInTheDocument();
 
-  it("renders with custom color", () => {
-    const { container } = render(
-      <ProgressArc {...defaultProps} color="QUARTZ" />,
-    );
-    expect(container.querySelector("svg")).toBeInTheDocument();
-  });
+      rerender(<ProgressArc {...defaultProps} pct={75} />);
 
-  it("renders with default color QUARTZ when not provided", () => {
-    const { container } = render(<ProgressArc {...defaultProps} />);
-    expect(container.querySelector("svg")).toBeInTheDocument();
-  });
+      const svg2 = container.querySelector("svg");
+      expect(svg2).toBeInTheDocument();
+    });
 
-  it("updates when percentage changes", () => {
-    const { rerender, container } = render(
-      <ProgressArc {...defaultProps} pct={25} />,
-    );
+    it("renders with 0% progress", () => {
+      const { container } = render(<ProgressArc {...defaultProps} pct={0} />);
+      expect(container.querySelector("svg")).toBeInTheDocument();
+      expect(container.querySelectorAll("circle")?.length).toBe(1);
+      const root = container.querySelector(elements.root);
+      expect(root).toHaveAccessibleName(
+        "1000 (0%) toward the daily goal of 2000",
+      );
+    });
 
-    const svg1 = container.querySelector("svg");
-    expect(svg1).toBeInTheDocument();
-
-    rerender(<ProgressArc {...defaultProps} pct={75} />);
-
-    const svg2 = container.querySelector("svg");
-    expect(svg2).toBeInTheDocument();
-  });
-
-  it("renders with 0% progress", () => {
-    const { container } = render(<ProgressArc {...defaultProps} pct={0} />);
-    expect(container.querySelector("svg")).toBeInTheDocument();
-  });
-
-  it("renders with 100% progress", () => {
-    const { container } = render(<ProgressArc {...defaultProps} pct={100} />);
-    expect(container.querySelector("svg")).toBeInTheDocument();
+    it("renders with 150% progress but caps at 100% rendering", () => {
+      const { container } = render(<ProgressArc {...defaultProps} pct={150} />);
+      expect(container.querySelector("svg")).toBeInTheDocument();
+      const root = container.querySelector(elements.root);
+      expect(root).toHaveAccessibleName(
+        "1000 (150%) toward the daily goal of 2000",
+      );
+      expect(root).toHaveAttribute(attrs.pct, "1");
+    });
   });
 });

@@ -10,9 +10,10 @@ export const ProgressArc = (props: ProgressArcProps) => {
   const {
     color = "QUARTZ",
     label,
+    mode = "percentage",
     pct,
     position = "top",
-    size,
+    size = "md",
     text,
   } = useProgressProps(props);
 
@@ -28,17 +29,27 @@ export const ProgressArc = (props: ProgressArcProps) => {
   });
 
   return (
-    <div className={root()} aria-label={label}>
+    <div
+      aria-label={label}
+      className={root()}
+      data-element="progress-arc"
+      data-progress-arc-color={color}
+      data-progress-arc-mode={mode}
+      data-progress-arc-render-pct={pct}
+      data-progress-arc-position={position}
+      data-progress-arc-size={size}
+    >
       <svg
         aria-hidden="true"
         className={svg()}
+        data-element="progress-arc-artwork"
         viewBox={`0 0 ${diameter} ${diameter}`}
       >
         <circle className={track()} {...trackProps} />
-        <circle className={bar()} {...barProps} />
+        {pct > 0 && <circle className={bar()} {...barProps} />}
       </svg>
-      <div className={textBox()}>
-        <TextDisplay4>{text}</TextDisplay4>
+      <div className={textBox()} data-element="progress-arc-text-box">
+        <TextDisplay4 data-element="progress-arc-text">{text}</TextDisplay4>
       </div>
     </div>
   );

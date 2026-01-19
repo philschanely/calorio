@@ -7,7 +7,7 @@ export const progressArcStyles = tv({
       flex flex-col items-center justify-start relative h-[240px] w-[240px]
     `,
     svg: "w-full h-full absolute top-0 left-0",
-    textBox: "pt-[60px]",
+    textBox: "",
     track: "text-quartz-500",
   },
   variants: {

@@ -1,7 +1,7 @@
 import { getValidPercentage } from "@/lib/utils";
-import { ProgressArcProps, ProgressBarProps } from "./types";
 import { useMemo } from "react";
-import { DaySummaryBadgeMode } from "@/lib/types";
+import { DayBadgeMode } from "@/lib/types";
+import { ProgressArcProps, ProgressBarProps } from "./types";
 
 export const useProgressProps = (
   props: ProgressArcProps | ProgressBarProps,
@@ -10,11 +10,11 @@ export const useProgressProps = (
 
   const text = useMemo(() => {
     switch (mode) {
-      case DaySummaryBadgeMode.DETAILS:
+      case DayBadgeMode.DETAILS:
         return `${total} ${unit}`;
-      case DaySummaryBadgeMode.PERCENTAGE:
+      case DayBadgeMode.PERCENTAGE:
         return `${pct}% `;
-      case DaySummaryBadgeMode.OVERALL:
+      case DayBadgeMode.OVERALL:
       default:
         return ``;
     }

@@ -1,5 +1,5 @@
-import { TokenColorSwatchbook, TokenTypeSpec } from "@/lib/tokens";
 import { ComponentPropsWithoutRef, ElementType } from "react";
+import { TokenColorSwatchbook, TokenTypeSpec } from "@/lib/tokens";
 
 // Base props for the text component
 export type TextBaseProps<T extends ElementType> = {

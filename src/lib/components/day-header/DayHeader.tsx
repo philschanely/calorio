@@ -1,5 +1,5 @@
-import { Icon } from "./icon";
-import { TextDisplay1 } from "./text";
+import { Icon } from "../icon";
+import { TextDisplay1 } from "../text";
 
 // TODO: Add day navigation and icon link/buttons
 

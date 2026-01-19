@@ -3,12 +3,18 @@ import { logoStyles } from "./Logo.styles";
 
 export type LogoProps = { size?: TokenTypeSpec | "fluid" };
 
-export const Logo = ({ size }: LogoProps) => {
+export const Logo = ({ size = "Display3" }: LogoProps) => {
   return (
-    <div aria-label="Calorio" className={logoStyles({ size })}>
+    <div
+      aria-label="Calorio"
+      className={logoStyles({ size })}
+      data-element="logo"
+      data-logo-size={size}
+    >
       <svg
         aria-hidden
         className="block h-full w-auto"
+        data-element="logo-artwork"
         viewBox="0 0 64 50"
         xmlns="http://www.w3.org/2000/svg"
       >

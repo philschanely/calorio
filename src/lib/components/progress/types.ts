@@ -1,9 +1,9 @@
 import { TokenColorSwatchbookBase } from "@/lib/tokens";
-import { DaySummaryBadgeMode, FactorSpec } from "@/lib/types";
+import { DayBadgeMode, FactorSpec } from "@/lib/types";
 
 export type ProgressCoreProps = FactorSpec & {
   color?: TokenColorSwatchbookBase;
-  mode?: DaySummaryBadgeMode;
+  mode?: DayBadgeMode;
   size?: "sm" | "md";
   unit: string;
 };
