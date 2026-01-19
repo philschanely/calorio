@@ -10,10 +10,10 @@ export const Icon = ({ icon, label, size = "F" }: IconProps) => {
   return (
     <span
       aria-label={label}
+      className={root()}
       data-element="icon"
       data-icon={icon}
       data-icon-size={size}
-      className={root()}
     >
       {faIcon && <FontAwesomeIcon className={iconClass()} icon={faIcon} />}
     </span>
