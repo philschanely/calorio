@@ -7,6 +7,6 @@ export const appStyles = tv({
       font-sans text-body text-default bg-background
       flex flex-col items-center justify-start
     `,
-    main: "w-full max-w-[520px] flex flex-col gap-m",
+    main: "w-full max-w-[520px] flex flex-col gap-m items-center",
   },
 });

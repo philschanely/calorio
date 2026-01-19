@@ -12,5 +12,5 @@ export default async function Home() {
 
   const data = (await res.json()) as DashboardDTO;
 
-  return <Dashboard overallPct={data.today.overallPct} />;
+  return <Dashboard {...data.today} />;
 }
