@@ -1,7 +1,7 @@
 import { TokenIcon } from "@/lib/tokens";
 import { ComponentProps } from "react";
 
-export type ButtonVariant =
+export type IconButtonVariant =
   | "danger"
   | "default"
   | "primary"
@@ -9,8 +9,7 @@ export type ButtonVariant =
   | "selected"
   | "warning";
 
-export type ButtonProps = {
-  icon?: TokenIcon;
-  iconRight?: TokenIcon;
-  variant?: ButtonVariant;
+export type IconButtonProps = {
+  icon: TokenIcon;
+  variant?: IconButtonVariant;
 } & ComponentProps<"button">;

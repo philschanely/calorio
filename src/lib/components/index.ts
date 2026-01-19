@@ -4,6 +4,7 @@ export * from "./dashboard";
 export * from "./day-badge";
 export * from "./day-header";
 export * from "./icon";
+export * from "./icon-button";
 export * from "./logo";
 export * from "./progress";
 export * from "./text";

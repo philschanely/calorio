@@ -4,7 +4,7 @@ export const buttonStyles = tv(
   {
     slots: {
       root: `
-        flex items-center gap-b py-b rounded-b text-quartz-600 
+        flex items-center gap-b h-k rounded-b text-quartz-600 
         focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-quartz-50 
       `,
       text: `flex-1 text-display-4 line-clamp-1 text-left`,
@@ -20,6 +20,9 @@ export const buttonStyles = tv(
         },
         safe: {
           root: "bg-emerald-300 hover:bg-emerald-200 disabled:bg-emerald-500",
+        },
+        selected: {
+          root: "bg-quartz-100 hover:bg-quartz-50 disabled:bg-quartz-400",
         },
         warning: {
           root: "bg-citrine-300 hover:bg-citrine-200 disabled:bg-citrine-500",
