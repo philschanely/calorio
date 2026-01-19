@@ -1,16 +1,18 @@
 "use client";
 
 import { DayBadgeMode } from "@/lib/types";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ProgressArc, ProgressBadge, ProgressBar } from "../progress";
 import { dayBadgeStyles } from "./DayBadge.styles";
 import { DayBadgeProps } from "./DayBadge.types";
+import { DensityRating } from "@prisma/client";
 
 export const DayBadge = ({
-  overallPct,
-  water,
-  steps,
   calories,
+  density,
+  overallPct,
+  steps,
+  water,
 }: DayBadgeProps) => {
   const [mode, setMode] = useState<DayBadgeMode>(DayBadgeMode.OVERALL);
 
@@ -29,13 +31,26 @@ export const DayBadge = ({
     }
   };
 
+  const densityColor = useMemo(() => {
+    switch (density.rating) {
+      case DensityRating.red:
+        return "RUBY";
+      case DensityRating.yellow:
+        return "CITRINE";
+      case DensityRating.green:
+      default:
+        return "EMERALD";
+    }
+  }, [density]);
+
   const { root, spec } = dayBadgeStyles();
 
   return (
     <div
-      data-element="day-badge"
-      data-day-badge-mode={mode}
       className={root()}
+      data-element="day-badge"
+      data-day-badge-density-color={densityColor}
+      data-day-badge-mode={mode}
       onClick={handleClick}
     >
       <div data-element="day-badge-water-wrapper" className={spec()}>
@@ -47,7 +62,7 @@ export const DayBadge = ({
       <div data-element="day-badge-calories-wrapper" className={spec()}>
         <ProgressArc
           {...calories}
-          color="EMERALD"
+          color={densityColor}
           mode={mode}
           position="bottom"
           unit="cals"

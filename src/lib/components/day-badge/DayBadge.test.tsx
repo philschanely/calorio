@@ -21,6 +21,11 @@ const elements = {
   overall: "[data-element='day-badge-overall-wrapper']",
 };
 
+const attrs = {
+  densityColor: "data-day-badge-density-color",
+  mode: "data-day-badge-mode",
+};
+
 const mockDayBadgeProps: DayBadgeProps = {
   overallPct: 75,
   density: { rating: "green" as DensityRating, score: 1 },
@@ -40,6 +45,8 @@ describe("DayBadge Component", () => {
       const root = container.querySelector(elements.root);
       expect(container).toBeDefined();
       expect(root).toBeInTheDocument();
+      expect(root).toHaveAttribute(attrs.densityColor, "EMERALD");
+      expect(root).toHaveAttribute(attrs.mode, "overall");
       expect(container.querySelector(elements.water)).toBeInTheDocument();
       expect(container.querySelector(elements.calories)).toBeInTheDocument();
       expect(container.querySelector(elements.steps)).toBeInTheDocument();
@@ -106,6 +113,30 @@ describe("DayBadge Component", () => {
         await user.click(root);
         expect(container.querySelector(elements.overall)).toBeInTheDocument();
       }
+    });
+
+    it("renders different colors for density ratings", () => {
+      const { container: yellowContainer } = render(
+        <DayBadge
+          {...mockDayBadgeProps}
+          density={{ rating: "yellow", score: 4.3 }}
+        />,
+      );
+      expect(yellowContainer.querySelector(elements.root)).toHaveAttribute(
+        attrs.densityColor,
+        "CITRINE",
+      );
+
+      const { container: redContainer } = render(
+        <DayBadge
+          {...mockDayBadgeProps}
+          density={{ rating: "red", score: 4.3 }}
+        />,
+      );
+      expect(redContainer.querySelector(elements.root)).toHaveAttribute(
+        attrs.densityColor,
+        "RUBY",
+      );
     });
   });
 });
