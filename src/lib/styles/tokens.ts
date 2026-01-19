@@ -1,0 +1,42 @@
+import { TokenColorSwatchbook, TokenTypeSpec } from "../tokens";
+
+export const colorVariants: Record<TokenColorSwatchbook, string> = {
+  QUARTZ_50: "text-quartz-50",
+  QUARTZ_100: "text-quartz-100",
+  QUARTZ_200: "text-quartz-200",
+  QUARTZ_300: "text-quartz-300",
+  QUARTZ_400: "text-quartz-400",
+  QUARTZ_500: "text-quartz-500",
+  QUARTZ_600: "text-quartz-600",
+  QUARTZ_900: "text-quartz-900",
+  TOPAZ_100: "text-topaz-100",
+  TOPAZ_200: "text-topaz-200",
+  TOPAZ_300: "text-topaz-300",
+  TOPAZ_400: "text-topaz-400",
+  TOPAZ_500: "text-topaz-500",
+  EMERALD_100: "text-emerald-100",
+  EMERALD_200: "text-emerald-200",
+  EMERALD_300: "text-emerald-300",
+  EMERALD_400: "text-emerald-400",
+  EMERALD_500: "text-emerald-500",
+  CITRINE_100: "text-citrine-100",
+  CITRINE_200: "text-citrine-200",
+  CITRINE_300: "text-citrine-300",
+  CITRINE_400: "text-citrine-400",
+  CITRINE_500: "text-citrine-500",
+  RUBY_100: "text-ruby-100",
+  RUBY_200: "text-ruby-200",
+  RUBY_300: "text-ruby-300",
+  RUBY_400: "text-ruby-400",
+  RUBY_500: "text-ruby-500",
+};
+
+export const typeSpecVariants: Record<TokenTypeSpec, string> = {
+  Display1: "text-display-1",
+  Display2: "text-display-2",
+  Display3: "text-display-3",
+  Display4: "text-display-4",
+  Display5: "text-display-5",
+  Body: "text-body",
+  Caption: "text-caption",
+};

@@ -1,9 +1,10 @@
-import { TokenTypeSpec } from "@/lib/tokens";
+import { TokenColorSwatchbook, TokenTypeSpec } from "@/lib/tokens";
 import { ComponentPropsWithoutRef, ElementType } from "react";
 
 // Base props for the text component
 export type TextBaseProps<T extends ElementType> = {
   as?: T;
+  color?: TokenColorSwatchbook | "inherit";
   spec?: TokenTypeSpec;
 };
 

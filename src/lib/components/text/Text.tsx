@@ -5,11 +5,12 @@ import { ElementType } from "react";
 
 export const Text = <T extends ElementType = "p">({
   as,
+  color = "inherit",
   spec = "Body",
   ...props
 }: TextProps<T>) => {
   const Component = as ?? "p";
-  return <Component className={textStyles({ spec })} {...props} />;
+  return <Component className={textStyles({ color, spec })} {...props} />;
 };
 
 const createTextVariant =
