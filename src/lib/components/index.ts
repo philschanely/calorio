@@ -1,4 +1,5 @@
 export * from "./app-header";
+export * from "./button";
 export * from "./dashboard";
 export * from "./day-badge";
 export * from "./day-header";
