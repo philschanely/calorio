@@ -18,7 +18,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ![Show entries lists](./docs/assets/calorio-entry-list.png)
 
-![Show expanded history](./docs/assets/calorio-entry-history-expanded.png)
+![Show expanded history](./docs/assets/calorio-history-expanded.png)
 
 ## Getting Started
 
