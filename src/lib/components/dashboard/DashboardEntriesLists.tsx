@@ -1,8 +1,6 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
+import { FoodEntry, StepsEntry, WaterEntry } from "../entry";
 import { TextDisplay3 } from "../text";
-import { FoodEntry } from "../entry";
-import { StepsEntry } from "../entry/StepsEntry";
-import { WaterEntry } from "../entry/WaterEntry";
 
 export const DashboardEntriesLists = () => {
   return (

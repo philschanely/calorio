@@ -1,6 +1,6 @@
 import { tv } from "tailwind-variants";
-import { TextBody } from "../text";
 import { WaterEntryDTO } from "@/lib/types";
+import { TextBody } from "../text";
 
 export const waterEntryStyles = tv({
   slots: {

@@ -1,6 +1,6 @@
 import { tv } from "tailwind-variants";
-import { TextBody } from "../text";
 import { StepsEntryDTO } from "@/lib/types";
+import { TextBody } from "../text";
 
 export const stepsEntryStyles = tv({
   slots: {

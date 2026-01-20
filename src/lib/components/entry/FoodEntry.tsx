@@ -1,6 +1,6 @@
 import { tv } from "tailwind-variants";
-import { TextBody, TextCaption } from "../text";
 import { FoodEntryDTO } from "@/lib/types";
+import { TextBody, TextCaption } from "../text";
 
 export const foodEntryStyles = tv({
   slots: {

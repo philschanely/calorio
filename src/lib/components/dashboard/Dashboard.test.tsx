@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { Dashboard } from "./Dashboard";
 import type { DaySummaryDTO } from "@/lib/types";
 import type { DensityRating } from "@/lib/types";
+import { PropsWithChildren } from "react";
 
 // Mock dependencies
 vi.mock("next/link", () => ({
@@ -35,6 +36,12 @@ vi.mock("../day-badge", () => ({
       DayBadge
     </div>
   ),
+}));
+
+vi.mock("../text", () => ({
+  TextDisplay3: ({ children }: PropsWithChildren) => <div>{children}</div>,
+  TextBody: ({ children }: PropsWithChildren) => <div>{children}</div>,
+  TextCaption: ({ children }: PropsWithChildren) => <div>{children}</div>,
 }));
 
 vi.mock("@/lib/styles", () => ({
