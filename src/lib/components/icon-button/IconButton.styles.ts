@@ -2,7 +2,7 @@ import { tv } from "tailwind-variants";
 
 export const iconButtonStyles = tv({
   base: `
-    flex items-center justify-center size-k rounded-full text-quartz-600 
+    flex items-center justify-center size-k flex-none rounded-full text-quartz-600 
     focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-quartz-50 
   `,
   variants: {
