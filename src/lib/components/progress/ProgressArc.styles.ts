@@ -37,10 +37,12 @@ export const progressArcStyles = tv({
       top: {
         textBox: "pt-[60px]",
         root: "justify-start",
+        svg: "transform-[scaleX(1)]",
       },
       bottom: {
         textBox: "pb-[60px]",
         root: "justify-end",
+        svg: "transform-[scaleX(-1)]",
       },
     },
   },

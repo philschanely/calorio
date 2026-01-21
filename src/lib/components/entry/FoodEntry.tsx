@@ -1,4 +1,5 @@
 import { tv } from "tailwind-variants";
+import * as motion from "motion/react-client";
 import { FoodEntryDTO } from "@/lib/types";
 import { TextBody, TextCaption } from "../text";
 
@@ -55,7 +56,12 @@ export const FoodEntry = ({
   } = foodEntryStyles({ rating });
 
   return (
-    <li className={root()} data-element="food-entry" onClick={handleClick}>
+    <motion.li
+      className={root()}
+      data-element="food-entry"
+      layout
+      onClick={handleClick}
+    >
       <div className={labelCn()} data-element="food-entry-label">
         <TextBody>{label}</TextBody>
       </div>
@@ -69,6 +75,6 @@ export const FoodEntry = ({
           <TextBody>{calories} cal</TextBody>
         </div>
       </div>
-    </li>
+    </motion.li>
   );
 };

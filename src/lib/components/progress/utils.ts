@@ -1,3 +1,4 @@
+import { SVGMotionProps } from "motion/react";
 import {
   GetProgressArcParams,
   GetProgressArcReturn,
@@ -48,11 +49,11 @@ export const getProgressArc = ({
   const innerPct = innerCircPortionWithOffsets / innerCirc;
 
   // Our SVG values use sort of the opposite of the percentage amount
-  const totalDashOffset = innerCirc - innerCirc * innerPct;
-  const portionDashOffset = innerCirc - progressPct * innerPct * innerCirc;
+  const trackDashOffset = innerCirc - innerCirc * innerPct;
+  const barDashOffset = innerCirc - progressPct * innerPct * innerCirc;
 
   // Properties that apply to both the track and the bar
-  const commonProps: React.SVGProps<SVGCircleElement> = {
+  const commonProps: SVGMotionProps<SVGCircleElement> = {
     cx: arcRadius, // center is same as radius
     cy: arcRadius, // center is same as radius
     fill: "none",
@@ -67,21 +68,22 @@ export const getProgressArc = ({
     position === "bottom" ? innerArcOffsetAngle : innerArcOffsetAngle + 180;
 
   const barRotation =
-    position === "bottom"
-      ? 90 - innerArcOffsetAngle
-      : innerArcOffsetAngle + 180;
+    position === "bottom" ? innerArcOffsetAngle : innerArcOffsetAngle + 180;
 
   return {
+    innerCirc,
+    barDashOffset,
     barProps: {
       ...commonProps,
       transform: `rotate(${barRotation} ${arcRadius} ${arcRadius})`,
-      strokeDashoffset: portionDashOffset,
+      strokeDashoffset: barDashOffset,
     },
     diameter,
+    trackDashOffset,
     trackProps: {
       ...commonProps,
       transform: `rotate(${trackRotation} ${arcRadius} ${arcRadius})`,
-      strokeDashoffset: totalDashOffset,
+      strokeDashoffset: trackDashOffset,
     },
   };
 };

@@ -1,4 +1,6 @@
 import { tv } from "tailwind-variants";
+import { format } from "date-fns";
+import * as motion from "motion/react-client";
 import { StepsEntryDTO } from "@/lib/types";
 import { TextBody } from "../text";
 
@@ -25,13 +27,18 @@ export const StepsEntry = ({ createdAtISO, stepsDelta }: StepsEntryProps) => {
   const { label: labelCn, root, specs } = stepsEntryStyles();
 
   return (
-    <li className={root()} data-element="steps-entry" onClick={handleClick}>
+    <motion.li
+      className={root()}
+      data-element="steps-entry"
+      layout
+      onClick={handleClick}
+    >
       <div className={labelCn()} data-element="steps-entry-label">
-        <TextBody>{createdAtISO}</TextBody>
+        <TextBody>{format(createdAtISO, "p")}</TextBody>
       </div>
       <div className={specs()} data-element="steps-entry-steps">
         <TextBody>{stepsDelta} steps</TextBody>
       </div>
-    </li>
+    </motion.li>
   );
 };

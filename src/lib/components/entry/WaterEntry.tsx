@@ -1,6 +1,8 @@
 import { tv } from "tailwind-variants";
+import * as motion from "motion/react-client";
 import { WaterEntryDTO } from "@/lib/types";
 import { TextBody } from "../text";
+import { format } from "date-fns";
 
 export const waterEntryStyles = tv({
   slots: {
@@ -25,13 +27,18 @@ export const WaterEntry = ({ createdAtISO, cupsDelta }: WaterEntryProps) => {
   const { label: labelCn, root, specs } = waterEntryStyles();
 
   return (
-    <li className={root()} data-element="water-entry" onClick={handleClick}>
+    <motion.li
+      className={root()}
+      data-element="water-entry"
+      layout
+      onClick={handleClick}
+    >
       <div className={labelCn()} data-element="water-entry-label">
-        <TextBody>{createdAtISO}</TextBody>
+        <TextBody>{format(createdAtISO, "p")}</TextBody>
       </div>
       <div className={specs()} data-element="water-entry-steps">
-        <TextBody>{cupsDelta} steps</TextBody>
+        <TextBody>{cupsDelta} cups</TextBody>
       </div>
-    </li>
+    </motion.li>
   );
 };

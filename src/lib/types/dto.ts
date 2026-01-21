@@ -1,3 +1,5 @@
+import { DayEntries } from ".";
+
 export type DensityRating = "green" | "yellow" | "red" | "unrated";
 
 export const amountUnits = ["g", "oz", "ml", "floz", "cup"] as const;
@@ -24,12 +26,14 @@ export type DaySummaryDTO = {
   steps: FactorSpec;
   water: FactorSpec;
   density: { rating: DensityRating; score: number | null };
+  entriesByDay?: Record<string, DayEntries>;
 };
 
 export type DashboardDTO = {
   todayISO: string;
   today: DaySummaryDTO;
   past7: DayRingDTO[];
+  entriesByDay?: Record<string, DayEntries>;
 };
 
 export type FoodEntryDTO = {

@@ -9,6 +9,8 @@ import { DayBadge } from "../day-badge";
 import { DayHeader } from "../day-header";
 import { IconButton } from "../icon-button";
 import { DashboardEntriesLists } from "./DashboardEntriesLists";
+import { AnimatePresence } from "motion/react";
+import * as motion from "motion/react-client";
 
 export enum EntriesState {
   CALORIES = "calories",
@@ -17,6 +19,7 @@ export enum EntriesState {
 }
 
 export function Dashboard({
+  entriesByDay,
   overallPct,
   density,
   water,
@@ -24,7 +27,7 @@ export function Dashboard({
   calories,
 }: DaySummaryDTO) {
   const { user } = useSession();
-  const [showList, setShowList] = useState(true);
+  const [showList, setShowList] = useState(false);
 
   const handleToggleEntries = () => setShowList((val) => !val);
 
@@ -64,7 +67,18 @@ export function Dashboard({
           View entries
         </IconButton>
       </div>
-      {showList && <DashboardEntriesLists />}
+      <AnimatePresence>
+        {showList && (
+          <motion.div
+            className="w-full"
+            initial={{ opacity: 0, y: -20, height: 0 }}
+            animate={{ opacity: 1, y: 0, height: "auto" }}
+            exit={{ opacity: 0, y: -20, height: 0 }}
+          >
+            <DashboardEntriesLists entriesByDay={entriesByDay} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

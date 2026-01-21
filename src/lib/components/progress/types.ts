@@ -1,5 +1,6 @@
 import { TokenColorSwatchbookBase } from "@/lib/tokens";
 import { DayBadgeMode, FactorSpec } from "@/lib/types";
+import { SVGMotionProps } from "motion/react";
 
 export type ProgressCoreProps = FactorSpec & {
   color?: TokenColorSwatchbookBase;
@@ -35,7 +36,10 @@ export type GetProgressArcParams = {
 };
 
 export type GetProgressArcReturn = {
-  barProps: React.SVGProps<SVGCircleElement>;
+  barDashOffset: number;
+  barProps: SVGMotionProps<SVGCircleElement>;
   diameter: number;
-  trackProps: React.SVGProps<SVGCircleElement>;
+  innerCirc: number;
+  trackDashOffset: number;
+  trackProps: SVGMotionProps<SVGCircleElement>;
 };

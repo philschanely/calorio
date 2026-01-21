@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import * as motion from "motion/react-client";
 import { TextDisplay4 } from "../text";
 import { progressBarStyles } from "./ProgressBar.styles";
 import { ProgressBarProps } from "./types";
@@ -57,11 +58,13 @@ export const ProgressBar = (props: ProgressBarProps) => {
     >
       <div aria-hidden className={track()} data-element="progress-bar-track">
         {pct > 0 && (
-          <div
+          <motion.div
             ref={barRef}
             className={bar()}
             data-element="progress-bar-bar"
-            style={{ width: `calc((100% - 32px) * ${pct} + 32px)` }}
+            initial={{ width: 0 }}
+            animate={{ width: `calc((100% - 32px) * ${pct} + 32px)` }}
+            exit={{ width: 0 }}
           />
         )}
       </div>

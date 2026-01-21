@@ -1,5 +1,6 @@
 "use client";
 
+import * as motion from "motion/react-client";
 import { TextDisplay4 } from "../text";
 import { progressArcStyles } from "./ProgressArc.styles";
 import { ProgressArcProps } from "./types";
@@ -17,11 +18,12 @@ export const ProgressArc = (props: ProgressArcProps) => {
     text,
   } = useProgressProps(props);
 
-  const { barProps, diameter, trackProps } = getProgressArc({
-    position,
-    progressPct: pct,
-    size,
-  });
+  const { barDashOffset, barProps, diameter, innerCirc, trackProps } =
+    getProgressArc({
+      position,
+      progressPct: pct,
+      size,
+    });
 
   const { bar, root, svg, textBox, track } = progressArcStyles({
     color,
@@ -39,18 +41,29 @@ export const ProgressArc = (props: ProgressArcProps) => {
       data-progress-arc-position={position}
       data-progress-arc-size={size}
     >
-      <svg
+      <motion.svg
         aria-hidden="true"
         className={svg()}
         data-element="progress-arc-artwork"
         viewBox={`0 0 ${diameter} ${diameter}`}
       >
-        <circle className={track()} {...trackProps} />
-        {pct > 0 && <circle className={bar()} {...barProps} />}
-      </svg>
-      <div className={textBox()} data-element="progress-arc-text-box">
+        <motion.circle className={track()} {...trackProps} />
+        {pct > 0 && (
+          <motion.circle
+            initial={{ strokeDashoffset: innerCirc }}
+            animate={{ strokeDashoffset: barDashOffset }}
+            className={bar()}
+            {...barProps}
+          />
+        )}
+      </motion.svg>
+      <motion.div
+        className={textBox()}
+        layout
+        data-element="progress-arc-text-box"
+      >
         <TextDisplay4 data-element="progress-arc-text">{text}</TextDisplay4>
-      </div>
+      </motion.div>
     </div>
   );
 };

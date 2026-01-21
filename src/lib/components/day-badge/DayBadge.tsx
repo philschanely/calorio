@@ -2,10 +2,12 @@
 
 import { DayBadgeMode } from "@/lib/types";
 import { useMemo, useState } from "react";
+import * as motion from "motion/react-client";
 import { ProgressArc, ProgressBadge, ProgressBar } from "../progress";
 import { dayBadgeStyles } from "./DayBadge.styles";
 import { DayBadgeProps } from "./DayBadge.types";
 import { DensityRating } from "@prisma/client";
+import { AnimatePresence } from "motion/react";
 
 export const DayBadge = ({
   calories,
@@ -14,7 +16,7 @@ export const DayBadge = ({
   steps,
   water,
 }: DayBadgeProps) => {
-  const [mode, setMode] = useState<DayBadgeMode>(DayBadgeMode.OVERALL);
+  const [mode, setMode] = useState<DayBadgeMode>(DayBadgeMode.PERCENTAGE);
 
   const handleClick = () => {
     switch (mode) {
@@ -57,7 +59,7 @@ export const DayBadge = ({
         <ProgressArc {...water} color="TOPAZ" mode={mode} unit="cups" />
       </div>
       <div data-element="day-badge-steps-wrapper" className={spec()}>
-        <ProgressBar {...steps} mode={mode} unit="steps" pct={60} />
+        <ProgressBar {...steps} mode={mode} unit="steps" />
       </div>
       <div data-element="day-badge-calories-wrapper" className={spec()}>
         <ProgressArc
@@ -68,14 +70,19 @@ export const DayBadge = ({
           unit="cals"
         />
       </div>
-      {mode === DayBadgeMode.OVERALL && (
-        <div
-          data-element="day-badge-overall-wrapper"
-          className={spec({ className: "z-10" })}
-        >
-          <ProgressBadge pct={overallPct} mode={mode} />
-        </div>
-      )}
+      <AnimatePresence>
+        {mode === DayBadgeMode.OVERALL && (
+          <motion.div
+            data-element="day-badge-overall-wrapper"
+            className={spec({ className: "z-10" })}
+            initial={{ transform: "rotateX(-90deg)", opacity: 0 }}
+            animate={{ transform: "rotateX(0deg)", opacity: 1 }}
+            exit={{ transform: "rotateX(-90deg)", opacity: 0 }}
+          >
+            <ProgressBadge pct={overallPct} mode={mode} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
