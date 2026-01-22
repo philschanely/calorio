@@ -1,23 +1,11 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
+import { AnimatePresence } from "motion/react";
 import * as motion from "motion/react-client";
+import { PropsWithChildren } from "react";
 import { FoodEntry, StepsEntry, WaterEntry } from "../entry";
 import { TextDisplay3 } from "../text";
-import { tv } from "tailwind-variants";
-import { AnimatePresence } from "motion/react";
-import { PropsWithChildren } from "react";
 import { DayEntries } from "@/lib/types";
-
-export const styles = tv({
-  slots: {
-    root: "w-full flex flex-col gap-d",
-    tab: `
-      flex flex-1 text-center flex-col gap-b outline-none
-      text-quartz-200 cursor-pointer
-    `,
-    tabPanel: "w-full flex flex-col gap-d justify-start",
-    underline: "block border-none h-a bg-current rounded-full w-full",
-  },
-});
+import { dashboardEntryListsStyles } from "./styles";
 
 const tabs = [
   {
@@ -35,7 +23,7 @@ const tabs = [
 ];
 
 export const EntryTabPane = ({ children }: PropsWithChildren) => {
-  const { tabPanel } = styles();
+  const { tabPanel } = dashboardEntryListsStyles();
 
   return (
     <TabPanel
@@ -55,7 +43,7 @@ export const DashboardEntriesLists = ({
 }: {
   entriesByDay?: Record<string, DayEntries>;
 }) => {
-  const { root, tab, underline } = styles();
+  const { root, tab, underline } = dashboardEntryListsStyles();
   const {
     calories = [],
     steps = [],

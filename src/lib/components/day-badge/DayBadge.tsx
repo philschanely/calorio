@@ -16,7 +16,7 @@ export const DayBadge = ({
   steps,
   water,
 }: DayBadgeProps) => {
-  const [mode, setMode] = useState<DayBadgeMode>(DayBadgeMode.PERCENTAGE);
+  const [mode, setMode] = useState<DayBadgeMode>(DayBadgeMode.OVERALL);
 
   const handleClick = () => {
     switch (mode) {

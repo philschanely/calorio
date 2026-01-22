@@ -1,5 +1,7 @@
 "use client";
 
+import { AnimatePresence } from "motion/react";
+import * as motion from "motion/react-client";
 import Link from "next/link";
 import { useState } from "react";
 import { useSession } from "@/lib/providers";
@@ -9,8 +11,7 @@ import { DayBadge } from "../day-badge";
 import { DayHeader } from "../day-header";
 import { IconButton } from "../icon-button";
 import { DashboardEntriesLists } from "./DashboardEntriesLists";
-import { AnimatePresence } from "motion/react";
-import * as motion from "motion/react-client";
+import { dashboardStyles } from "./styles";
 
 export enum EntriesState {
   CALORIES = "calories",
@@ -42,15 +43,14 @@ export function Dashboard({
     );
   }
 
+  const { badgeControls, badgeWrapper, listWrapper, root } = dashboardStyles();
+
   return (
-    <div
-      className="flex flex-col gap-f w-full max-w-[360px] justify-start items-center"
-      data-element="dashboard"
-    >
+    <div className={root()} data-element="dashboard">
       <DayHeader />
-      <div className="flex gap-d items-end" data-element="dashboard-badge">
+      <div className={badgeControls()} data-element="dashboard-badge">
         <IconButton icon="PLUS">Add entry</IconButton>
-        <div className="flex-1">
+        <div className={badgeWrapper()}>
           <DayBadge
             calories={calories}
             density={density}
@@ -70,7 +70,7 @@ export function Dashboard({
       <AnimatePresence>
         {showList && (
           <motion.div
-            className="w-full"
+            className={listWrapper()}
             initial={{ opacity: 0, y: -20, height: 0 }}
             animate={{ opacity: 1, y: 0, height: "auto" }}
             exit={{ opacity: 0, y: -20, height: 0 }}
