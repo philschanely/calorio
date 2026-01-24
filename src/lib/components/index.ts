@@ -6,5 +6,6 @@ export * from "./day-header";
 export * from "./icon";
 export * from "./icon-button";
 export * from "./logo";
+export * from "./modal";
 export * from "./progress";
 export * from "./text";

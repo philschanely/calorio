@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getSwatchbookColor } from "./helpers";
+import { getSwatchbookColor, getSwatchbookColorWithOpacity } from "./helpers";
 import { SWATCHBOOK } from "./tokens";
 
 describe("color helpers", () => {
@@ -21,6 +21,26 @@ describe("color helpers", () => {
       // @ts-expect-error testing invalid input
       expect(getSwatchbookColor("FAKE_300", SWATCHBOOK.RUBY_200)).toBe(
         SWATCHBOOK.RUBY_200,
+      );
+    });
+  });
+
+  describe("with hex alpha ", () => {
+    it("returns the correct hex alpha", () => {
+      expect(getSwatchbookColorWithOpacity("QUARTZ_50", 0.5)).toBe(
+        SWATCHBOOK.QUARTZ_50 + "80",
+      );
+      expect(getSwatchbookColorWithOpacity("QUARTZ_50", 1)).toBe(
+        SWATCHBOOK.QUARTZ_50 + "ff",
+      );
+      expect(getSwatchbookColorWithOpacity("QUARTZ_50", 0)).toBe(
+        SWATCHBOOK.QUARTZ_50 + "00",
+      );
+      expect(getSwatchbookColorWithOpacity("QUARTZ_50", 0.65)).toBe(
+        SWATCHBOOK.QUARTZ_50 + "a6",
+      );
+      expect(getSwatchbookColorWithOpacity("QUARTZ_50", 0.25)).toBe(
+        SWATCHBOOK.QUARTZ_50 + "40",
       );
     });
   });
