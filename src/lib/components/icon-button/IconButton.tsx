@@ -5,6 +5,7 @@ import { Icon } from "../icon/Icon";
 
 export const IconButton = ({
   children,
+  ghost = false,
   icon,
   variant = "default",
   ...rest
@@ -12,7 +13,10 @@ export const IconButton = ({
   return (
     <button
       aria-label={children?.toString()}
-      className={iconButtonStyles({ variant })}
+      className={iconButtonStyles({
+        ghost,
+        variant: ghost ? `ghost-${variant}` : variant,
+      })}
       data-element="icon-button"
       {...rest}
     >

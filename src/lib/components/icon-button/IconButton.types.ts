@@ -11,5 +11,6 @@ export type IconButtonVariant =
 
 export type IconButtonProps = {
   icon: TokenIcon;
+  ghost?: boolean;
   variant?: IconButtonVariant;
 } & ComponentProps<"button">;
