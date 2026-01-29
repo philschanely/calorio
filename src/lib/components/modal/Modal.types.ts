@@ -7,3 +7,10 @@ export type ModalProps = PropsWithChildren<{
   onClose: () => void;
   title?: ReactNode;
 }>;
+
+export type UseModalReturn = {
+  isOpen: boolean;
+  open: () => void;
+  close: () => void;
+  props: ModalProps;
+};
